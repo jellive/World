@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<context:component-scan base-package="com.webapp.controller" />
+
+	<!-- <bean class="com.webapp.controller.CityController" /> -->
+
+	<!-- <bean class="com.webapp.controller.LocaleController"> -->
+	<!-- <property name="SessionLocaleResolver" ref="localeResolver" /> -->
+	<!-- </bean> -->
+
+	<!-- 다국어 메세지 관리. id는 반드시 'messageSource'로 해야 한다. -->
+	<!-- 이렇게만 해 줘도 한국어 시스템이면 뒤에 _ko가 붙음. -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>message.error</value>
+				<value>message.label</value>
+			</list>
+		</property>
+		<property name="fallbackToSystemLocale">
+			<value>false</value>
+		</property>
+	</bean>
+
+	<!-- 클라이언트 언어에 따른 메세지 변경. 여기도 id는 반드시 'localeResolver'로 해야한다. -->
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="ko" />
+		<!-- 무조건 언어가 한국어로 변경됨. -->
+	</bean>
+
+	<bean id="cityCommandValidator" class="com.webapp.validator.CityCommandValidator" />
+
+
+</beans>
